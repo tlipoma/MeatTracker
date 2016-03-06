@@ -1,0 +1,6 @@
+# Virtual Env
+venv/
+
+# Data Sources
+*.db
+*.csv
