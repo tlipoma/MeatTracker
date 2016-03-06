@@ -1,6 +1,9 @@
 # Python files
 *.pyc
 
+# Git files
+*.md~
+
 # Virtual Env
 venv/
 
