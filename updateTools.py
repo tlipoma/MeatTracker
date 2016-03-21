@@ -1,7 +1,9 @@
 from Database import DBTools as db
-
+from Location import LocationTools as LocTools
 
 def init_from_csv(file_location):
+	# MAKE SURE NO ',' IN THE CSV!!!!
+
 	# This will assume a blank Database!!!
 	# Clear Database before using this!!!!
 
@@ -15,7 +17,10 @@ def init_from_csv(file_location):
 	# delivery instructions, referrer, hold, prefs changes, -other stuff
 	orderDic = {}
 	fo = open(file_location, 'r')
+	entryNumber = 0
 	for line in fo:
+		entryNumber += 1
+		print "Adding entry " + str(entryNumber)
 		order = {}
 		orderArray = line.split(',')
 		
@@ -27,8 +32,28 @@ def init_from_csv(file_location):
 		order['email'] = orderArray[4]
 		order['phone'] = orderArray[5]
 
-		# Delivery Info
-		order[''] = orderArray[]
+		# Address Info
+		order['type'] = orderArray[7]
+		order['address1'] = orderArray[8]
+		order['address2'] = orderArray[9]
+		order['city'] = orderArray[10]
+		order['state'] = orderArray[11]
+		order['zip'] = LocTools.fix_zipcode(orderArray[12])
+		order['delivery_instructions'] = orderArray[26]
+		addressString = order['address1'] + ',' + order['city'] + ',' + order['state'] + ',' + order['zip']
+		lat, lng = LocTools.convert_address_to_latlng(addressString)
+		order['lat'] = lat
+		order['lng'] = lng
+		#order[''] = orderArray[]
+
+		# Meat Tracker Varabiles
+		order['delivered_flag'] = False
+		order['notes'] = orderArray[25]
+		order['hold'] = orderArray[28]
+		#order['estimated_delivery_date'] = ???
+
+		# Add to Database
+		db.add_entry(order)
 
 	fo.close()
 
