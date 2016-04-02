@@ -1,16 +1,17 @@
-import DataSetTools as ds
+import MongoTools as mTools
 
 # Initialize database
-DB_PATH = 'sqlite:///orders.db'
-CUSTOMER_TABLE = 'customer'
-data_base = ds.DataSET(DB_PATH, CUSTOMER_TABLE)
+MONGO_DB_LOCATION = 'mongodb://localhost:27017/'
+DB_PATH = 'test_database'
+ORDERS_COLLECTION = 'orders'
+db = mTools.Collection(MONGO_DB_LOCATION, DB_PATH, ORDERS_COLLECTION)
 
 
 def add_entry(entry_dic):
-	data_base.add_entry(entry_dic)
+	print("build me")
 	
 def len():
-	return data_base.get_size_of()
+	return 1
 
 def delete_orders():
-	data_base.delete_table()
+	print "build me"

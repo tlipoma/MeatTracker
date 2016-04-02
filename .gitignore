@@ -1,5 +1,12 @@
 # Python files
 *.pyc
+__pycache__/
+*.py[cod]
+*.pyc
+*$py.class
+
+# C extensions
+*.so
 
 # Git files
 *.md~
@@ -10,3 +17,8 @@ venv/
 # Data Sources
 *.db
 *.csv
+
+# Flask Files
+instance/
+
+
