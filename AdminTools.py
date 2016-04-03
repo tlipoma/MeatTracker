@@ -1,6 +1,42 @@
 from Database import MongoTools
+from Database import DBTools
+from Routing import WorkWave
 import csv
 import datetime
+
+def send_all_orders_to_WW():
+	# this adds all active deliveries to WW
+	# Make sure to clear WW before doing this
+	local = MongoTools.LocalDB()
+
+	print "Building deliveries array"
+	deliveries = local.get_all_active_deliveries()
+
+	order_array = []
+	for order in deliveries:
+		order_array.append(WorkWave.build_order_from_document(order))
+
+	# Calulate time to add and send
+	time = len(order_array)/60.0 # len of time to add in minutes
+	print "Sending to WorkWave - this should take " + str(time) + " minutes"
+	response = WorkWave.add_orders(order_array)
+	print response
+	print response.text
+
+	local.disconnect()
+
+def send_order_to_WW(orderID):
+	local = MongoTools.LocalDB()
+	order = local.get_delivery_by_walden_id(orderID)
+	ordersArray = [WorkWave.build_order_from_document(order)]
+	response = WorkWave.add_orders(ordersArray)
+	print response
+	print response.text
+	local.disconnect()
+	return response
+
+def update_DB_from_walden():
+	DBTools.update_local_from_walden()
 
 def init_DB_from_LastDelivery(location_to_csv):
 

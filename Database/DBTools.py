@@ -6,7 +6,7 @@ def update_local_from_walden():
 	walden = mTools.WaldenDB()
 
 	all_users = walden.get_all_users()
-	num_orders = all_orders.count()
+	num_orders = all_users.count()
 
 	# Cycle through all the Walden Users
 	cycle_number = 0
@@ -17,9 +17,14 @@ def update_local_from_walden():
 
 		# Check if it exits in local
 		if local.id_exists(walden_ID):
+			print "updating...",
 			local.update_from_walden_record(user)
 		else:
-			local.create_from_walden_record(user)
-
+			print "adding...",
+			local.add_from_walden_record(user)
 
 		print "Done!"
+
+	print "Done updating from Walden"
+	local.disconnect()
+	walden.disconnect()
