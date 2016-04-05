@@ -1,8 +1,72 @@
 from Database import MongoTools
 from Database import DBTools
 from Routing import WorkWave
+import json
 import csv
 import datetime
+
+def build_route_csv(day):
+	print "Getting routes"
+	# get routes from WW
+	routes_response = WorkWave.get_routes_on_day(day)
+	if routes_response.status_code != 200:
+		print routes_response.text
+		return None
+	routes = routes_response.json()['routes']
+
+	print "Getting DBs"
+	# Get Databases
+	local = MongoTools.LocalDB()
+	walden = MongoTools.WaldenDB()
+
+	deliveries = {}
+	for route in routes:
+		this_route = routes[route]
+		# build section
+		steps = this_route['steps']
+		lines = []
+		for step in steps:
+			line = {}
+			if "orderId" in step:
+				delivery = local.get_delivery_by_WW_id(step['orderId'])
+				walden_order = walden.find_from_ID(delivery['walden_ID'])
+
+				line['delivery_time'] = get_time_from_sec(step['arrivalSec'])
+				line['name'] = delivery['name_first'] + " " + delivery['name_last']
+				line['address_1'] = delivery['address_1']
+				line['address_2'] = delivery['address_2']
+				line['city'] = delivery['city']
+				line['zip_code'] = delivery['zip_code']
+				
+				line['phone'] = walden_order['phone']
+				note = ""
+				if 'location_type' in delivery:
+					note += delivery['location_type']
+				note += ' - '
+				if 'notes' in walden_order:
+					if walden_order['notes'] != None:
+						note += walden_order['notes']
+				line['note'] = note
+
+				lines.append(line)
+		deliveries[WorkWave.get_truck_name(this_route['vehicleId'])] = lines
+
+	print json.dumps(deliveries)
+
+	local.disconnect()
+	walden.disconnect()
+
+def get_time_from_sec(sec):
+	h = sec/60.0/60.0
+	hour = int(h)
+	minute = int((h-hour)*60)
+	return str(hour) + ":" + str(minute)
+
+def update_mid_month():
+	DBTools.update_local_mid_month()
+
+def update_ww_id_from_WW():
+	DBTools.update_local_from_WW()
 
 def send_all_orders_to_WW():
 	# this adds all active deliveries to WW

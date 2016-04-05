@@ -52,7 +52,14 @@ class LocalDB:
         return self.collection.find_one({'walden_ID': wid})
     def get_all_active_deliveries(self):
         return self.collection.find({'status': 'active'})
+    def get_all(self):
+        return self.collection.find()
+    def get_delivery_by_WW_id(self, wwid):
+        return self.collection.find_one( {'workwave_ID' : wwid} )
 
+    # Setting functions
+    def set_ww_ID(self, wid, wwid):
+        self.collection.update_one( {'walden_ID':wid}, {'$set': {'workwave_ID':wwid}} )
 
     # Adding functions
     def add_delivery(self, newDoc):
