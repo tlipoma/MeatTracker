@@ -31,6 +31,7 @@ def build_route_csv(day):
 				delivery = local.get_delivery_by_WW_id(step['orderId'])
 				walden_order = walden.find_from_ID(delivery['walden_ID'])
 
+				line['walden_ID'] = delivery['walden_ID']
 				line['delivery_time'] = get_time_from_sec(step['arrivalSec'])
 				line['name'] = delivery['name_first'] + " " + delivery['name_last']
 				line['address_1'] = delivery['address_1']
@@ -51,10 +52,30 @@ def build_route_csv(day):
 				lines.append(line)
 		deliveries[WorkWave.get_truck_name(this_route['vehicleId'])] = lines
 
-	print json.dumps(deliveries)
-
 	local.disconnect()
 	walden.disconnect()
+
+	#Convert to csv
+	print "Converting to csv..."
+	csv_array = []
+	for truck in deliveries:
+		csv_array.append("\n\n\n" +truck + "\n")
+		route = deliveries[truck]
+		for stop in route:
+			line = stop['walden_ID'] + ","
+			line += stop['delivery_time'] + ","
+			line += stop['name'] + ","
+			line += stop['address_1'] + ","
+			if stop['address_2'] != None:
+				line += stop['address_2'] + ","
+			else:
+				line += ","
+			line += stop['city'] + ","
+			line += stop['zip_code'] + ","
+			line += stop['phone'] + ","
+			line += stop['note'] + ","
+			csv_array.append(line + "\n")
+	return csv_array
 
 def get_time_from_sec(sec):
 	h = sec/60.0/60.0

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Script Eden ( http://scripteden.net/ ) Template Builder v2.0.0">  
+    <!--pageMeta-->
+
+    <!-- Loading Bootstrap -->
+    <link href="static/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Loading Flat UI -->
+    <link href="static/css/flat-ui.css" rel="stylesheet">
+    
+    <link href="static/css/style.css" rel="stylesheet">
+
+    <link href="staticcss/style.complete.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="static/css/routingview.css">
+    
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+    
+    <!--headerIncludes-->
+    <script type="text/javascript" src="static/js/routingview.js"></script>
+    <script type="text/javascript" src="static/js/calendar.js"></script>
+    
+</head>
+<body>
+    
+    <div id="page" class="page">
+        
+    <!-- /.item --><header class="item header margin-top-0 padding-bottom-0" id="header5">
+    
+    		<div class="wrapper">
+    	
+    			<div class="container">
+    		
+    				<nav role="navigation" class="navbar navbar-inverse navbar-embossed navbar-lg navbar-fixed-top">
+    					
+    					<div class="container">
+    				
+    						<div class="navbar-header">
+    							<button data-target="#navbar-collapse-02" data-toggle="collapse" class="navbar-toggle" type="button">
+    								<span class="sr-only">Toggle navigation</span>
+    							</button>
+    							<a href="#" class="navbar-brand brand">MeatTracker<br></a>
+   							</div>
+    								
+    						<div id="navbar-collapse-02" class="collapse navbar-collapse">
+    							<ul class="nav navbar-nav">			      
+    								<li class="propClone"><a href="dbtools.html">DB Tools</a></li>
+    								<li class="active propClone"><a href="routing.html">Routing Tools<br></a></li>
+    								<li class="propClone"><a href="csr.html">CSR Tools</a></li>
+    								
+    							</ul> 		     
+    							<ul class="nav navbar-nav navbar-right">
+    								<li class="propClone">
+    									<a href="#">Login <span class="fa fa-lock"></span></a>
+    								</li>
+    							</ul>
+    						</div><!-- /.navbar-collapse -->
+    					
+    					</div><!-- /.container -->
+    					
+    				</nav>
+    			
+    				<div class="row banner">
+    				
+    					<div class="col-md-12">
+    						
+    						<h1 class="text-center margin-top-100 editContent"></h1>
+    						
+    						<div class="text-center">
+    							
+    						</div>
+    				
+    					</div>
+    			
+    				</div><!-- /.row -->
+                    <div id="form_container">
+                        <form id="form_1120767" class="appnitro"  method="post" action="">
+                                    <div class="form_description">
+                            <h2>Get Route CSV</h2>
+                            <p>Enter a date to download locked CSV from workwave</p>
+                        </div>                      
+                            <ul >
+                            
+                                    <li id="li_1" >
+                        <label class="description" for="element_1">Date </label>
+                        <span>q
+                            <input id="element_1_1" name="element_1_1" class="element text" size="2" maxlength="2" value="" type="text"> /
+                            <label for="element_1_1">MM</label>
+                        </span>
+                        <span>
+                            <input id="element_1_2" name="element_1_2" class="element text" size="2" maxlength="2" value="" type="text"> /
+                            <label for="element_1_2">DD</label>
+                        </span>
+                        <span>
+                            <input id="element_1_3" name="element_1_3" class="element text" size="4" maxlength="4" value="" type="text">
+                            <label for="element_1_3">YYYY</label>
+                        </span>
+                    
+                        <span id="calendar_1">
+                            <img id="cal_img_1" class="datepicker" src="static/images/calendar.gif" alt="Pick a date.">   
+                        </span>
+                        <script type="text/javascript">
+                            Calendar.setup({
+                            inputField   : "element_1_3",
+                            baseField    : "element_1",
+                            displayArea  : "calendar_1",
+                            button       : "cal_img_1",
+                            ifFormat     : "%B %e, %Y",
+                            onSelect     : selectDate
+                            });
+                        </script>
+                         
+                        </li>
+                            
+                                    <li class="buttons">
+                                <input type="hidden" name="form_id" value="1120767" />
+                                
+                                <input id="saveForm" class="button_text" type="submit" name="submit" value="Get CSV" />
+                        </li>
+                            </ul>
+                    </form> 
+    		
+    			</div><!-- /.container -->
+    	
+    		</div><!-- /.wrapper -->
+    	
+    	</header><!-- /.item --></div><!-- /#page -->
+
+
+    <!-- Load JS here for greater good =============================-->
+    <script src="static/js/jquery-1.8.3.min.js"></script>
+    <script src="static/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="static/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/bootstrap-select.js"></script>
+    <script src="static/js/bootstrap-switch.js"></script>
+    <script src="static/js/flatui-checkbox.js"></script>
+    <script src="static/js/flatui-radio.js"></script>
+    <script src="static/js/jquery.tagsinput.js"></script>
+    <script src="static/js/jquery.placeholder.js"></script>
+	<script src="static/js/jquery.nivo.slider.pack.js"></script>
+    <script src="static/js/application.js"></script>
+	<script src="static/js/over.js"></script>
+	<script>
+	$(function(){
+		
+		if( $('#nivoSlider').size() > 0 ) {
+		
+	    	$('#nivoSlider').nivoSlider({
+	    		effect: 'random',
+				pauseTime: 5000
+	    	});
+		
+		}
+		
+	})
+	</script>
+
+
+</body></html>

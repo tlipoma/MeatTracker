@@ -38,6 +38,10 @@ def add_orders(orderArray):
     urlExtension = "territories/" + WORK_WAVE_PRIMARY_TERRITORY + "/orders"
     return post_to_WW(urlExtension, data)
 
+def replace_order(order, wwid):
+    urlExtension = "territories/" + WORK_WAVE_PRIMARY_TERRITORY + "/orders/" + wwid
+    return post_to_WW(urlExtension, order)
+
 def drop_orders(dropArray):
     urlExtension = "territories/" + WORK_WAVE_PRIMARY_TERRITORY + "/orders?ids="
     for i in range(len(dropArray)):
@@ -52,7 +56,7 @@ def get_orders():
 def get_territories():
     return get_from_WW("territories")
 
-def build_order_from_document(inD):
+def build_order_from_document(inD, startDate = None):
     order = {}
 
     # name
@@ -73,8 +77,12 @@ def build_order_from_document(inD):
         if (today-last_date).days > 32:
             eligibility_days = get_eligibility_array(today, True)
         else:
-            this_date = last_date + datetime.timedelta(days=monthrange(last_date.year, last_date.month)[1])
-            eligibility_days = get_eligibility_array(this_date)
+            if startDate != None:
+                this_date = startDate
+                eligibility_days = get_eligibility_array(this_date, True)
+            else:
+                this_date = last_date + datetime.timedelta(days=monthrange(last_date.year, last_date.month)[1])
+                eligibility_days = get_eligibility_array(this_date)
 
     eligibility['type'] = 'on'
     eligibility['onDates'] = eligibility_days
