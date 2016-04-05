@@ -62,18 +62,29 @@ def build_route_csv(day):
 		csv_array.append("\n\n\n" +truck + "\n")
 		route = deliveries[truck]
 		for stop in route:
-			line = stop['walden_ID'] + ","
+			line = "" + ','
+			line += "" + ','
 			line += stop['delivery_time'] + ","
 			line += stop['name'] + ","
-			line += stop['address_1'] + ","
+			line += "" + ','
+			line += "" + ','
+			line += "" + ','
+			line += "" + ','
+			line += "" + ','
+			line += "" + ','
+			line += stop['address_1']
 			if stop['address_2'] != None:
-				line += stop['address_2'] + ","
+				line += " - " + stop['address_2'] + ","
 			else:
-				line += ","
+				line += " - " + ","
 			line += stop['city'] + ","
 			line += stop['zip_code'] + ","
 			line += stop['phone'] + ","
-			line += stop['note'] + ","
+			line += "" + ','
+			line += "" + ','
+			line += "" + ','
+			line += "" + ','
+			line += stop['walden_ID'] + ","
 			csv_array.append(line + "\n")
 	return csv_array
 

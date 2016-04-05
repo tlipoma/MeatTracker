@@ -11,6 +11,7 @@ WORK_WAVE_PRIMARY_TERRITORY = "2eafce5c-e559-4b09-8a9f-3181f20bf726"
 DELIVERY_DATE_DELTA = 2 # add +- days to last delivery date for new window
 MIN_DAYS_FROM_NOW = 3 # new adds must be this number of days in the future to allow for packing
 DEFAULT_SERVICE_TIME = 180 # 3 minutes in seconds
+DEFAULT_BUISNESS_SERVICE_TIME = 300 # 5 min in seconds
 
 def get_from_WW(urlExtension):
     url = WORK_WAVE_BASE_URL + urlExtension
@@ -98,10 +99,10 @@ def build_order_from_document(inD, startDate = None):
     window = {}
     if inD['location_type'] == 'buisness':
         window['startSec'] = 32400 # 9am in seconds
-        window['endSec'] = 61200   # 5pm in seconds
+        window['endSec'] = 57600   # 5pm in seconds
     else:
-        window['startSec'] = 28800 # 8am in seconds
-        window['endSec'] = 68400   # 7pm in seconds
+        window['startSec'] = 18000 # 8am in seconds
+        window['endSec'] = 72000   # 7pm in seconds
     timeWindows.append(window)
 
     # build delivery
@@ -112,7 +113,10 @@ def build_order_from_document(inD, startDate = None):
     delivery['tagsOut'] = []
     delivery['location'] = location
     delivery['timeWindows'] = timeWindows
-    delivery['serviceTimeSec'] = DEFAULT_SERVICE_TIME
+    if inD['location_type'] == 'buisness':
+        delivery['serviceTimeSec'] = DEFAULT_BUISNESS_SERVICE_TIME
+    else:
+        delivery['serviceTimeSec'] = DEFAULT_SERVICE_TIME
     customFields = {}
     customFields['walden_ID'] = inD['walden_ID']
     delivery['customFields'] = customFields
