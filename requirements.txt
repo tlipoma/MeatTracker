@@ -1,3 +1,4 @@
 googlemaps
 pymongo
 flask
+Flask-Login
