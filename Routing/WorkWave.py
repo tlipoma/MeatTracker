@@ -91,7 +91,11 @@ def build_order_from_document(inD, startDate = None):
 
     # Address
     location = {}
-    address_string = inD['address_1'] + ", " + inD['city'] + ", " + inD['state'] + " " + inD['zip_code'] + ", " + "USA"
+    try:
+        address_string = inD['address_1'] + ", " + inD['city'] + ", " + inD['state'] + " " + inD['zip_code'] + ", " + "USA"
+    except:
+        print "failed on order: " + inD['walden_ID']
+        #address_string = ""
     location['address'] = address_string
 
     # Delivery Time
@@ -119,6 +123,7 @@ def build_order_from_document(inD, startDate = None):
         delivery['serviceTimeSec'] = DEFAULT_SERVICE_TIME
     customFields = {}
     customFields['walden_ID'] = inD['walden_ID']
+    customFields['last_delivery_date'] = inD['last_delivery_date']
     delivery['customFields'] = customFields
     order['delivery'] = delivery
 

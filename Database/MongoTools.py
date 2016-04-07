@@ -51,7 +51,7 @@ class LocalDB:
     def get_delivery_by_walden_id(self, wid):
         return self.collection.find_one({'walden_ID': wid})
     def get_all_active_deliveries(self):
-        return self.collection.find({'status': 'active'})
+        return self.collection.find({'$or': [ {'status': 'active'},{'status':'manual'} ] })
     def get_all(self):
         return self.collection.find()
     def get_delivery_by_WW_id(self, wwid):
@@ -68,10 +68,18 @@ class LocalDB:
         newDocument = create_document_from_walden_record(waldenDoccument)
         if newDocument != None:
             self.collection.insert_one(newDocument)
+    def add_from_WW_record(self, work_record):
+        newDocument = create_from_WW_order(work_record)
+        self.collection.insert_one(newDocument)
     def update_from_walden_record(self, waldenDoccument):
         updateDocument = update_document_from_walden_record(waldenDoccument)
         self.collection.update_one({'walden_ID':waldenDoccument['_id']}, {'$set': updateDocument})
 
+def create_from_WW_order(wwOrder):
+    newD = {}
+    newD['walden_ID'] = wwOrder['delivery']['customFields']['walden_ID']
+    newD['last_delivery_date'] = wwOrder['delivery']['customFields']['last_delivery_date']
+    return newD
 
 def update_document_from_walden_record(waldenD):
     # Dont delete document if suspended or canceld
@@ -84,11 +92,13 @@ def update_document_from_walden_record(waldenD):
     newD['name_first'] = waldenD['firstName']
     newD['name_last'] = waldenD['lastName']
     # Address items
-    newD['address_1'] = waldenD['address']['address1']
-    newD['address_2'] = waldenD['address']['address2']
-    newD['city'] = waldenD['address']['city']
-    newD['state'] = waldenD['address']['state']
-    newD['zip_code'] = waldenD['address']['zipCode']
+    address = waldenD['address']
+    newD['address_1'] = address['address1']
+    if address['address2'] != None:
+        newD['address_2'] = address['address2']
+    newD['city'] = address['city']
+    newD['state'] = address['state']
+    newD['zip_code'] = address['zipCode']
     newD['location_type'] = waldenD['deliveryType']
 
     return newD
@@ -97,10 +107,12 @@ def update_document_from_walden_record(waldenD):
 
 def create_document_from_walden_record(waldenD):
     # Dont add if not active or if pickup type
-    if (waldenD['status'] != 'active') or (waldenD['deliveryType'] == 'pickup'):
-        return None
-
-    newD = update_document_from_walden_record(waldenD)
-    # Set blank delivery date
-    newD['last_delivery_date'] = 0
-    return newD
+    if waldenD['status'] == 'manual' or waldenD['status'] == 'active':
+        if waldenD['deliveryType'] == 'pickup':
+            return None
+        newD = update_document_from_walden_record(waldenD)
+        # Set blank delivery date
+        newD['last_delivery_date'] = 0
+        return newD
+    return None
+    

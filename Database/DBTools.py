@@ -30,6 +30,32 @@ def update_local_from_walden():
     local.disconnect()
     walden.disconnect()
 
+def init_local_from_WW():
+    print "Getting Orders from WW...",
+    # Get order list from WW
+    response = ww.get_orders()
+    print "Done"
+
+    # Check Error Codes
+    if (response.status_code != 200):
+        return False
+
+    # Get actual order data
+    orders = response.json()['orders']
+
+    # Get and clear Local DB
+    local = mTools.LocalDB()
+    local.delete_all_local_documents()
+
+    print "Cycling through orders...",
+    for order in orders:
+        local.add_from_WW_record(orders[order])
+    print "Done"
+
+    local.disconnect()
+    return True
+
+
 def update_local_from_WW():
     # as of now this doesn't remove ones that have been flag as no longer delivering
     # even though they have been deleted from WW
@@ -78,7 +104,7 @@ def update_local_mid_month():
     add_array = []
     all_orders = local.get_all()
     for order in all_orders:
-        if order['status'] == "active":
+        if order['status'] == "active" or order['status'] == "manual":
             if 'workwave_ID' not in order:
                 add_array.append( ww.build_order_from_document(order) )
         else:

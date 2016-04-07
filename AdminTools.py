@@ -100,6 +100,9 @@ def update_mid_month():
 def update_ww_id_from_WW():
 	DBTools.update_local_from_WW()
 
+def init_DB_from_WW():
+	DBTools.init_local_from_WW()
+
 def send_all_orders_to_WW():
 	# this adds all active deliveries to WW
 	# Make sure to clear WW before doing this
