@@ -2,3 +2,5 @@ googlemaps
 pymongo
 flask
 Flask-Login
+cffi
+cryptography
