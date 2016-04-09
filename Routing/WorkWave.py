@@ -57,7 +57,7 @@ def get_orders():
 def get_territories():
     return get_from_WW("territories")
 
-def build_order_from_document(inD, startDate = None):
+def build_order_from_document(inD, startDate=None, lockDate=False):
     order = {}
 
     # name
@@ -70,7 +70,9 @@ def build_order_from_document(inD, startDate = None):
     last_date = inD['last_delivery_date']
     today = datetime.datetime.today()
     eligibility_days = []
-    if last_date == 0:
+    if lockDate:
+        eligibility_days = get_eligibility_array(startDate, singeDay=True)
+    elif last_date == 0:
         eligibility_days = get_eligibility_array(today, True)
     else:
         last_date = datetime.datetime.strptime(inD['last_delivery_date'], "%m/%d/%Y")
@@ -137,8 +139,12 @@ def build_order_from_document(inD, startDate = None):
     return order
 
 
-def get_eligibility_array(startDay, anyFlag=False):
+def get_eligibility_array(startDay, anyFlag=False, singeDay=False):
     out_array = []
+
+    if singeDay:
+        out_array.append(startDay.strftime("%Y%m%d"))
+        return out_array
 
     start = startDay - datetime.timedelta(days=DELIVERY_DATE_DELTA)
     end = startDay + datetime.timedelta(days=DELIVERY_DATE_DELTA)

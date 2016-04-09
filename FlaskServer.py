@@ -60,44 +60,63 @@ def login():
 @app.route('/routing', methods=['GET', 'POST'])
 @login_required
 def return_routing_page():
-	# For now go to routing
-	if request.method == 'POST':
-		try:
-			day = int(request.form['element_1_2'])
-			month = int(request.form['element_1_1'])
-			year = int(request.form['element_1_3'])
-			get_day = datetime.datetime(year, month, day)
-			# Build CSV
-			csv_array = AdminTools.build_route_csv(get_day)
-			csv_string = ""
-			if csv_array != None:
-				for line in csv_array:
-					csv_string += line
-				output = make_response(csv_string)
-				output.headers["Content-Disposition"] = "attachment; filename=export.csv"
-				output.headers["Content-type"] = "text/csv"
-				return output
-			else:
-				return "Error, probably in ww/network"
-		except:
-			return "ERROR"
-			return "running"
-	else:
-		return render_template('routing.html', name=None)
+    # For now go to routing
+    if request.method == 'POST':
+        try:
+            day = int(request.form['element_1_2'])
+            month = int(request.form['element_1_1'])
+            year = int(request.form['element_1_3'])
+            get_day = datetime.datetime(year, month, day)
+            # Build CSV
+            csv_array = AdminTools.build_route_csv(get_day)
+            csv_string = ""
+            if csv_array != None:
+                for line in csv_array:
+                    csv_string += line
+                output = make_response(csv_string)
+                output.headers["Content-Disposition"] = "attachment; filename=export.csv"
+                output.headers["Content-type"] = "text/csv"
+                return output
+            else:
+                return "Error, probably in ww/network"
+        except:
+            return "ERROR"
+            return "running"
+    else:
+        return render_template('routing.html', name=None)
 
 @app.route('/dbtools', methods=['GET', 'POST'])
 @login_required
 def return_dbtools_page():
-	if request.method == 'POST':
-		return "NOT YET!"
-	else:
-		return render_template('dbtools.html', name=None)
+    if request.method == 'POST':
+        return "NOT YET"
+    else:
+        return render_template('dbtools.html', name=None)
+
+@app.route('/csr', methods=['GET', 'POST'])
+@login_required
+def return_csr_page():
+    if request.method == 'POST':
+        if request.form['form_id'] == "make_up":
+            walden_id = request.form['walden_id']
+            month = int(request.form['element_2_1'])
+            day = int(request.form['element_2_2'])
+            year = int(request.form['element_2_3'])
+            set_day = datetime.datetime(year, month, day)
+            response = AdminTools.set_order_date_to_WW(walden_id, set_day)
+            if response.status_code == 200:
+                return "Done! - " + walden_id + " has been changed"
+            else:  
+                return "something went wrong! Talk to thomas!"
+        return "invalid post"
+    else:
+        return render_template('csr.html', name=None)
 
 @app.route('/updatemidmonth', methods=['GET'])
 @login_required
 def update_mid_month():
-	AdminTools.update_mid_month()
-	return "Done updateing mid month from Walden and WorkWave"
+    AdminTools.update_mid_month()
+    return "Done updateing mid month from Walden and WorkWave"
 
 @app.route("/logout")
 @login_required
@@ -106,8 +125,8 @@ def logout():
     return redirect(url_for("login"))
 
 if __name__ == '__main__':
-	app.config["SECRET_KEY"] = "ITSASECRET"
-	app.debug = True
-	app.run()
+    app.config["SECRET_KEY"] = "ITSASECRET"
+    app.debug = True
+    app.run()
 
 

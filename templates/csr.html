@@ -14,7 +14,7 @@
     
     <link href="static/css/style.css" rel="stylesheet">
 
-    <link href="staticcss/style.complete.css" rel="stylesheet">
+    <link href="static/css/style.complete.css" rel="stylesheet">
 
     <link rel="stylesheet" href="static/css/routingview.css">
     
@@ -53,9 +53,9 @@
     								
     						<div id="navbar-collapse-02" class="collapse navbar-collapse">
     							<ul class="nav navbar-nav">			      
-    								<li class="propClone"><a href="dbtools.html">DB Tools</a></li>
-    								<li class="active propClone"><a href="routing.html">Routing Tools<br></a></li>
-    								<li class="propClone"><a href="csr.html">CSR Tools</a></li>
+    								<li class="propClone"><a href="dbtools">DB Tools</a></li>
+    								<li class="propClone"><a href="routing">Routing Tools<br></a></li>
+    								<li class="active propClone"><a href="csr">CSR Tools</a></li>
     								
     							</ul> 		     
     							<ul class="nav navbar-nav navbar-right">
@@ -64,7 +64,7 @@
     								</li>
     							</ul>
     						</div><!-- /.navbar-collapse -->
-    					
+    					   
     					</div><!-- /.container -->
     					
     				</nav>
@@ -83,51 +83,56 @@
     			
     				</div><!-- /.row -->
                     <div id="form_container">
-                        <form id="form_1120767" class="appnitro"  method="post" action="">
+                        <h1><a>Move Delivery Date</a></h1>
+                        <form id="make_up" class="appnitro"  method="post" action="">
                                     <div class="form_description">
-                            <h2>Get Route CSV</h2>
-                            <p>Enter a date to download locked CSV from workwave</p>
+                            <h2>Move Delivery Date</h2>
+                            <p>Use this to set a users delivery date for this month. The date MUST be at least 3 business days in the future.</p>
                         </div>                      
                             <ul >
                             
                                     <li id="li_1" >
-                        <label class="description" for="element_1">Date </label>
-                        <span>q
-                            <input id="element_1_1" name="element_1_1" class="element text" size="2" maxlength="2" value="" type="text"> /
-                            <label for="element_1_1">MM</label>
+                        <label class="description" for="walden_id">Walden ID </label>
+                        <div>
+                            <input id="walden_id" name="walden_id" class="element text medium" type="text" maxlength="255" value=""/> 
+                        </div> 
+                        </li>       <li id="li_2" >
+                        <label class="description" for="element_2">Date To Move To </label>
+                        <span>
+                            <input id="element_2_1" name="element_2_1" class="element text" size="2" maxlength="2" value="" type="text"> /
+                            <label for="element_2_1">MM</label>
                         </span>
                         <span>
-                            <input id="element_1_2" name="element_1_2" class="element text" size="2" maxlength="2" value="" type="text"> /
-                            <label for="element_1_2">DD</label>
+                            <input id="element_2_2" name="element_2_2" class="element text" size="2" maxlength="2" value="" type="text"> /
+                            <label for="element_2_2">DD</label>
                         </span>
                         <span>
-                            <input id="element_1_3" name="element_1_3" class="element text" size="4" maxlength="4" value="" type="text">
-                            <label for="element_1_3">YYYY</label>
+                            <input id="element_2_3" name="element_2_3" class="element text" size="4" maxlength="4" value="" type="text">
+                            <label for="element_2_3">YYYY</label>
                         </span>
                     
-                        <span id="calendar_1">
-                            <img id="cal_img_1" class="datepicker" src="static/images/calendar.gif" alt="Pick a date.">   
+                        <span id="calendar_2">
+                            <img id="cal_img_2" class="datepicker" src="static/images/calendar.gif" alt="Pick a date.">   
                         </span>
                         <script type="text/javascript">
                             Calendar.setup({
-                            inputField   : "element_1_3",
-                            baseField    : "element_1",
-                            displayArea  : "calendar_1",
-                            button       : "cal_img_1",
+                            inputField   : "element_2_3",
+                            baseField    : "element_2",
+                            displayArea  : "calendar_2",
+                            button       : "cal_img_2",
                             ifFormat     : "%B %e, %Y",
                             onSelect     : selectDate
                             });
                         </script>
                          
-                        </li>
                             
-                                    <li class="buttons">
-                                <input type="hidden" name="form_id" value="1120767" />
-                                
-                                <input id="saveForm" class="button_text" type="submit" name="submit" value="Get CSV" />
+                        <li class="buttons">
+                            <input type="hidden" name="form_id" value="make_up" />
+                            
+                            <input id="saveForm" class="button_text" type="submit" name="submit" value="Submit" />
                         </li>
                             </ul>
-                    </form> 
+                        </form> 
     		
     			</div><!-- /.container -->
     	

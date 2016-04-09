@@ -134,6 +134,18 @@ def send_order_to_WW(orderID):
 	local.disconnect()
 	return response
 
+def set_order_date_to_WW(orderID, set_date):
+	local = MongoTools.LocalDB()
+	local_order = local.get_delivery_by_walden_id(orderID)
+	order = WorkWave.build_order_from_document(local_order, startDate=set_date, lockDate=True)
+
+	# Send to WW
+	response = WorkWave.replace_order(order, local_order['workwave_ID'])
+	print response.text
+	local.disconnect()
+	return response
+
+
 def update_DB_from_walden():
 	DBTools.update_local_from_walden()
 
