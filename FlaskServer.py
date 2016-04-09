@@ -106,7 +106,7 @@ def return_csr_page():
             response = AdminTools.set_order_date_to_WW(walden_id, set_day)
             if response.status_code == 200:
                 return "Done! - " + walden_id + " has been changed"
-            else:  
+            else:
                 return "something went wrong! Talk to thomas!"
         return "invalid post"
     else:

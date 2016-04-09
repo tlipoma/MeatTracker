@@ -35,7 +35,13 @@ def build_route_csv(day):
 				line['delivery_time'] = get_time_from_sec(step['arrivalSec'])
 				line['name'] = delivery['name_first'] + " " + delivery['name_last']
 				line['address_1'] = delivery['address_1']
-				line['address_2'] = delivery['address_2']
+				if 'address_2' in delivery:
+					if delivery['address_2'] != None:
+						line['address_2'] = delivery['address_2']
+					else:
+						line['address_2'] = ""
+				else:
+					line['address_2'] = ""
 				line['city'] = delivery['city']
 				line['zip_code'] = delivery['zip_code']
 				
