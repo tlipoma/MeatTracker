@@ -163,7 +163,8 @@ def init_DB_from_LastDelivery(location_to_csv):
 				print("couldn't convert time")
 				date = ""
 			# Get user from walden DB
-			user = walden.find_from_email(row[0])
+			#user = walden.find_from_email(row[0])
+			user = walden.find_from_ID(row[0])
 			if (user != None):
 				# build new doc
 				new_doc['walden_ID'] = user['_id']

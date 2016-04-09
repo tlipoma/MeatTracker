@@ -10,7 +10,7 @@ WORK_WAVE_PRIMARY_TERRITORY = "2eafce5c-e559-4b09-8a9f-3181f20bf726"
 
 DELIVERY_DATE_DELTA = 2 # add +- days to last delivery date for new window
 MIN_DAYS_FROM_NOW = 3 # new adds must be this number of days in the future to allow for packing
-DEFAULT_SERVICE_TIME = 180 # 3 minutes in seconds
+DEFAULT_SERVICE_TIME = 240 # 3 minutes in seconds
 DEFAULT_BUISNESS_SERVICE_TIME = 300 # 5 min in seconds
 
 def get_from_WW(urlExtension):
@@ -84,7 +84,6 @@ def build_order_from_document(inD, startDate = None):
             else:
                 this_date = last_date + datetime.timedelta(days=monthrange(last_date.year, last_date.month)[1])
                 eligibility_days = get_eligibility_array(this_date)
-
     eligibility['type'] = 'on'
     eligibility['onDates'] = eligibility_days
     order['eligibility'] = eligibility
@@ -154,7 +153,7 @@ def get_eligibility_array(startDay, anyFlag=False):
         if start.weekday() != 5 and start.weekday() != 6:
             out_array.append(start.strftime("%Y%m%d"))
         start += datetime.timedelta(days=1)
-
+    
     return out_array
 
 def get_routes_on_day(day):
