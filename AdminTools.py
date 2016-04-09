@@ -25,17 +25,20 @@ def build_route_csv(day):
 		# build section
 		steps = this_route['steps']
 		lines = []
+		print "1"
 		for step in steps:
 			line = {}
 			if "orderId" in step:
 				delivery = local.get_delivery_by_WW_id(step['orderId'])
 				walden_order = walden.find_from_ID(delivery['walden_ID'])
-
 				line['walden_ID'] = delivery['walden_ID']
 				line['delivery_time'] = get_time_from_sec(step['arrivalSec'])
 				line['name'] = delivery['name_first'] + " " + delivery['name_last']
 				line['address_1'] = delivery['address_1']
-				line['address_2'] = delivery['address_2']
+				if 'address_2' in delivery:
+					line['address_2'] = delivery['address_2']
+				else:
+					line['address_2'] = ""
 				line['city'] = delivery['city']
 				line['zip_code'] = delivery['zip_code']
 				
@@ -43,15 +46,15 @@ def build_route_csv(day):
 				note = ""
 				if 'location_type' in delivery:
 					note += delivery['location_type']
-				note += ' - '
+					note += ' - '
 				if 'notes' in walden_order:
 					if walden_order['notes'] != None:
 						note += walden_order['notes']
 				line['note'] = note
-
+	
 				lines.append(line)
 		deliveries[WorkWave.get_truck_name(this_route['vehicleId'])] = lines
-
+		print "2"
 	local.disconnect()
 	walden.disconnect()
 
