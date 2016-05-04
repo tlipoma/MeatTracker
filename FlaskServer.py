@@ -18,14 +18,14 @@ class User(UserMixin):
         return self.active
 
 USERS = {
-    1: User(u"Notch", 1),
-    2: User(u"Steve", 2),
-    3: User(u"Creeper", 3, False),
+    1: User(u"InfiniteJest", 1),
+    2: User(u"123r8230129eds8", 2),
+    3: User(u"asdfj233294zva3", 3, False),
 }
 
 USER_NAMES = dict((u.name, u) for u in USERS.itervalues())
 
-SECRET_KEY = "yeah, not actually a secret"
+SECRET_KEY = "imtotalyatotallyHugeSecretJerk!343"
 DEBUG = True
 
 app.config.from_object(__name__)
@@ -125,8 +125,8 @@ def logout():
     return redirect(url_for("login"))
 
 if __name__ == '__main__':
-    app.config["SECRET_KEY"] = "ITSASECRET"
-    app.debug = True
-    app.run()
+    app.config["SECRET_KEY"] = SECRET_KEY
+    app.debug = DEBUG
+    app.run(host='0.0.0.0')
 
 

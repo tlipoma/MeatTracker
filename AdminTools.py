@@ -20,6 +20,7 @@ def build_route_csv(day):
 	walden = MongoTools.WaldenDB()
 
 	deliveries = {}
+	
 	for route in routes:
 		this_route = routes[route]
 		# build section
@@ -30,6 +31,7 @@ def build_route_csv(day):
 			if "orderId" in step:
 				delivery = local.get_delivery_by_WW_id(step['orderId'])
 				walden_order = walden.find_from_ID(delivery['walden_ID'])
+
 
 				line['walden_ID'] = delivery['walden_ID']
 				line['delivery_time'] = get_time_from_sec(step['arrivalSec'])
