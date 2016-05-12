@@ -75,6 +75,10 @@ class LocalDB:
         updateDocument = update_document_from_walden_record(waldenDoccument)
         self.collection.update_one({'walden_ID':waldenDoccument['_id']}, {'$set': updateDocument})
 
+    # Removeing functions
+    def remove_ww_id(self, waldenID):
+	self.collection.update( {'walden_ID':waldenID}, {'$unset': {"workwave_ID":""}} )
+
 def create_from_WW_order(wwOrder):
     newD = {}
     newD['walden_ID'] = wwOrder['delivery']['customFields']['walden_ID']

@@ -110,6 +110,7 @@ def update_local_mid_month():
         else:
             if 'workwave_ID' in order:
                 drop_IDs.append( order['workwave_ID'] )
+		local.remove_ww_id( order['walden_ID'] )
 
     local.disconnect()
 

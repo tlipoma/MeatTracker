@@ -18,14 +18,13 @@ class User(UserMixin):
         return self.active
 
 USERS = {
-    1: User(u"InfiniteJest", 1),
-    2: User(u"123r8230129eds8", 2),
-    3: User(u"asdfj233294zva3", 3, False),
+    1: User(u"DrPepper", 1),
+    2: User(u"1adsff5555gs129eds8", 2),
 }
 
 USER_NAMES = dict((u.name, u) for u in USERS.itervalues())
 
-SECRET_KEY = "imtotalyatotallyHugeSecretJerk!343"
+SECRET_KEY = "imtotalyaasdlei482914jtJerk!343"
 DEBUG = True
 
 app.config.from_object(__name__)
