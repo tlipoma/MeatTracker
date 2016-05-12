@@ -13,20 +13,20 @@ def update_local_from_walden():
     cycle_number = 0
     for user in all_users:
         cycle_number += 1
-        print "Checking order number " + str(cycle_number) + " out of " + str(num_orders),
+        #print "Checking order number " + str(cycle_number) + " out of " + str(num_orders),
         walden_ID = user['_id']
 
         # Check if it exits in local
         if local.id_exists(walden_ID):
-            print "updating...",
+            #print "updating...",
             local.update_from_walden_record(user)
         else:
-            print "adding..." + walden_ID,
+            #print "adding..." + walden_ID,
             local.add_from_walden_record(user)
 
-        print "Done!"
+        #print "Done!"
 
-    print "Done updating from Walden"
+    #print "Done updating from Walden"
     local.disconnect()
     walden.disconnect()
 

@@ -1,9 +1,29 @@
 from Database import MongoTools
 from Database import DBTools
 from Routing import WorkWave
+from Email import EmailTools
 import json
 import csv
 import datetime
+
+def send_delivery_email(waldenID):
+	# Get Database
+	walden = MongoTools.WaldenDB()
+
+	# Get Email
+	email = walden.get_email_from_id(waldenID)
+	
+	# Send Email
+	success = EmailTools.send_delivery_email(email)
+	walden.disconnect()
+
+	# Set delivery date in local
+	local = MongoTools.LocalDB()
+	date_string = datetime.datetime.now().strftime("%m/%d/%Y")
+	local.set_last_delivery(waldenID, date_string)
+	local.disconnect()
+	
+	return success
 
 def build_route_csv(day):
 	print "Getting routes"

@@ -1,5 +1,6 @@
 import datetime
 import io, csv
+import os
 import AdminTools
 from flask import Flask, render_template, request, make_response, session, flash, redirect, url_for
 from flask.ext.login import (LoginManager, current_user, login_required,
@@ -7,6 +8,12 @@ from flask.ext.login import (LoginManager, current_user, login_required,
                             confirm_login, fresh_login_required)
 
 app = Flask(__name__)
+DEBUG = True
+try:
+    SECRET_KEY = os.environ['MEAT_TRACKER_SECRET_KEY']
+    USER_NAME_PASS = os.environ['MEAT_TRACKER_PASSWORD']
+except:
+    print("oh no, cant find server locations in environment variables")
 
 class User(UserMixin):
     def __init__(self, name, id, active=True):
@@ -18,14 +25,11 @@ class User(UserMixin):
         return self.active
 
 USERS = {
-    1: User(u"DrPepper", 1),
-    2: User(u"1adsff5555gs129eds8", 2),
+    1: User(unicode(USER_NAME_PASS, "utf-8"), 1),
 }
 
 USER_NAMES = dict((u.name, u) for u in USERS.itervalues())
 
-SECRET_KEY = "imtotalyaasdlei482914jtJerk!343"
-DEBUG = True
 
 app.config.from_object(__name__)
 login_manager = LoginManager()
@@ -105,6 +109,13 @@ def return_csr_page():
             response = AdminTools.set_order_date_to_WW(walden_id, set_day)
             if response.status_code == 200:
                 return "Done! - " + walden_id + " has been changed"
+            else:
+                return "something went wrong! Talk to thomas!"
+        elif request.form['form_id'] == "delivery_confirmation":
+            walden_id = request.form['walden_id']
+            response = AdminTools.send_delivery_email(walden_id)
+            if response:
+                return "Done!"
             else:
                 return "something went wrong! Talk to thomas!"
         return "invalid post"

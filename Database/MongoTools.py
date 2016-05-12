@@ -23,11 +23,13 @@ class WaldenDB:
 
     # Functions for finding orders/deliveries/users
     def find_from_ID(self, id):
-	return self.collection.find_one({'_id':str(id)})
+	   return self.collection.find_one({'_id':str(id)})
     def find_from_email(self, email):
         return self.collection.find_one({'email':email})
     def get_all_users(self):
         return self.collection.find()
+    def get_email_from_id(self, id):
+        return self.collection.find_one({'_id':str(id)})['email']
 
 
 class LocalDB:
@@ -60,6 +62,8 @@ class LocalDB:
     # Setting functions
     def set_ww_ID(self, wid, wwid):
         self.collection.update_one( {'walden_ID':wid}, {'$set': {'workwave_ID':wwid}} )
+    def set_last_delivery(self, wid, dateString):
+        self.collection.update_one( {'walden_ID':wid}, {'$set': {'last_delivery_date':dateString}} )
 
     # Adding functions
     def add_delivery(self, newDoc):

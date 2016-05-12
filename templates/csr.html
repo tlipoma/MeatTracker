@@ -135,6 +135,33 @@
                         </form> 
     		
     			</div><!-- /.container -->
+
+
+                <div id="form_container">
+                        <h1><a>Send Delivery Confirmation Email</a></h1>
+                        <form id="make_up" class="appnitro"  method="post" action="">
+                                    <div class="form_description">
+                            <h2>Send Delivery Confirmation Email</h2>
+                            <p>Use this to send an email to a user after their delivery has been made. This can currently only take one ID at a time. Bug Thomas if you want it to take a list of them at a time.</p>
+                        </div>                      
+                            <ul >
+                            
+                                    <li id="li_1" >
+                        <label class="description" for="walden_id">Walden ID </label>
+                        <div>
+                            <input id="walden_id" name="walden_id" class="element text medium" type="text" maxlength="255" value=""/> 
+                        </div> 
+                        </li>       <li id="li_2" >
+                                                    
+                        <li class="buttons">
+                            <input type="hidden" name="form_id" value="delivery_confirmation" />
+                            
+                            <input id="saveForm" class="button_text" type="submit" name="submit" value="Submit" />
+                        </li>
+                            </ul>
+                        </form> 
+            
+                </div><!-- /.container -->
     	
     		</div><!-- /.wrapper -->
     	
