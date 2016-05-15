@@ -33,7 +33,16 @@ def send_delivery_email(waldenID_list_string):
 			error_list.append(wid)
 
 	# Send Email
-	success = EmailTools.send_delivery_email(email_list)
+	success = False
+	response_list = EmailTools.send_delivery_email(email_list)
+	if len(response_list) == 0:
+		success = True
+		error_list.append('no emails sent')
+	for response in response_list:
+		if response['reject_reason'] == None:
+			success = True
+		else: 
+			error_list.append(response['email'])
 
 	# Set delivery date in local
 	date_string = datetime.datetime.now().strftime("%m/%d/%Y")

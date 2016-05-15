@@ -17,17 +17,16 @@ def send_delivery_confirmation(email_address_list):
     delivery_list = []
     for email in email_address_list:
         delivery_list.append( {'email':email} )
+    # Return if nothing to send
+    if len(delivery_list) == 0:
+        return []
     try:
         template_content = [{}]
         message = {
             'to': delivery_list,
             'from_email' : 'members@waldenlocalmeat.com',
         }
-        result = mandrill_client.messages.send_template(template_name='delivery-confirmation', template_content=template_content, message=message)
-        if result[0]['reject_reason'] == None:
-            return True
-        else:
-            return False
+        return mandrill_client.messages.send_template(template_name='delivery-confirmation', template_content=template_content, message=message)
     except mandrill.Error, e:
         # Mandrill errors are thrown as exceptions
         print 'A mandrill error occurred: %s - %s' % (e.__class__, e)
