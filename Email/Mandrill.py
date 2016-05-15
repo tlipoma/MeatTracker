@@ -12,11 +12,15 @@ except mandrill.Error, e:
 '''
 Simple sending functions
 '''
-def send_delivery_confirmation(email_address):
+def send_delivery_confirmation(email_address_list):
+    # Build email array
+    delivery_list = []
+    for email in email_address_list:
+        delivery_list.append( {'email':email} )
     try:
         template_content = [{}]
         message = {
-            'to': [{'email': email_address}],
+            'to': delivery_list,
             'from_email' : 'members@waldenlocalmeat.com',
         }
         result = mandrill_client.messages.send_template(template_name='delivery-confirmation', template_content=template_content, message=message)
