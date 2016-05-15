@@ -77,8 +77,9 @@ def update_local_from_WW():
     print "Cycling through orders...",
     for order in orders:
         ww_order = orders[order]
-        walden_ID = ww_order['delivery']['customFields']['walden_ID']
-        local.set_ww_ID(walden_ID, ww_order['id'])
+       	if 'walden_ID' in ww_order['delivery']['customFields']:
+	    walden_ID = ww_order['delivery']['customFields']['walden_ID']
+            local.set_ww_ID(walden_ID, ww_order['id'])
     print "Done"
 
     local.disconnect()
