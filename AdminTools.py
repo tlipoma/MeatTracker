@@ -6,24 +6,43 @@ import json
 import csv
 import datetime
 
-def send_delivery_email(waldenID):
+# This function takes a comma seperated list of id's and sends delivery emails 
+# to the users with those IDs
+def send_delivery_email(waldenID_list_string):
 	# Get Database
 	walden = MongoTools.WaldenDB()
+	local = MongoTools.LocalDB()
 
-	# Get Email
-	email = walden.get_email_from_id(waldenID)
-	
+	# Remove whitespace characters and split IDs
+	id_list = ''.join(waldenID_list_string.split())
+	id_list = id_list.split(',')
+
+	# Build list of emails and errors
+	email_list = []
+	error_list = []
+	success_list = []
+	for wid in id_list:
+		# Get Email
+		email = walden.get_email_from_id(wid)
+		
+		# Check we got something
+		if email:
+			email_list.append(email)
+			success_list.append(wid)
+		else:
+			error_list.append(wid)
+
 	# Send Email
-	success = EmailTools.send_delivery_email(email)
-	walden.disconnect()
+	success = EmailTools.send_delivery_email(email_list)
 
 	# Set delivery date in local
-	local = MongoTools.LocalDB()
 	date_string = datetime.datetime.now().strftime("%m/%d/%Y")
-	local.set_last_delivery(waldenID, date_string)
-	local.disconnect()
+	for wid in success_list:
+		local.set_last_delivery(wid, date_string)
 	
-	return success
+	local.disconnect()
+	walden.disconnect()	
+	return success, error_list
 
 def build_route_csv(day):
 	print "Getting routes"

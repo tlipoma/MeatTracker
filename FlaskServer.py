@@ -113,9 +113,15 @@ def return_csr_page():
                 return "something went wrong! Talk to thomas!"
         elif request.form['form_id'] == "delivery_confirmation":
             walden_id = request.form['walden_id']
-            response = AdminTools.send_delivery_email(walden_id)
+            response, error_list = AdminTools.send_delivery_email(walden_id)
             if response:
-                return "Done!"
+                if len(error_list) > 0:
+                    error_string = "Couldn't send emails to: \n"
+                    for wid in error_list:
+                        error_string += " ," +  wid
+                else:
+                    error_string = " No Delivery Errors"
+                return "Done!" + error_string
             else:
                 return "something went wrong! Talk to thomas!"
         return "invalid post"

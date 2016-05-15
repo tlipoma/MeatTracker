@@ -29,7 +29,11 @@ class WaldenDB:
     def get_all_users(self):
         return self.collection.find()
     def get_email_from_id(self, id):
-        return self.collection.find_one({'_id':str(id)})['email']
+        record = self.collection.find_one({'_id':str(id)})
+        if record:
+            return record['email']
+        else:
+            return record
 
 
 class LocalDB:
